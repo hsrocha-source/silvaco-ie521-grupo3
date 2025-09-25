@@ -5,11 +5,10 @@ line x loc=5 spac=0.06
 line x loc=10 spac=0.06
 line x loc=15 spac=0.1 
 #
-line y loc=0 spac=0.002
-line y loc=0.2 spac=0.025
-line y loc=5 spac=0.05
-line y loc=10 spac=0.05
-line y loc=15 spac=0.5 
+line y loc=0 spac=0.001
+line y loc=0.2 spac=0.005
+line y loc=0.5 spac=0.05
+line y loc=10 spac=0.5 
 
 init orientation=100 c.boron=6e15 space.mul=2
 
@@ -34,7 +33,7 @@ etch oxide thick=0.5
 structure outfile=projeto33.str
 tonyplot  projeto33.str
 
-diffus time=46 temp=900 dryo2 press=1.00 hcl=3
+diffus time=46.5 temp=900 dryo2 press=1.00 hcl=3
 
 structure outfile=projeto34.str
 tonyplot  projeto34.str
