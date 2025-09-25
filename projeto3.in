@@ -5,14 +5,15 @@ line x loc=5 spac=0.06
 line x loc=10 spac=0.06
 line x loc=15 spac=0.1 
 #
-line y loc=0 spac=0.02 
+line y loc=0 spac=0.002
+line y loc=0.2 spac=0.025
 line y loc=5 spac=0.05
 line y loc=10 spac=0.05
-line y loc=15 spac=0.15 
+line y loc=15 spac=0.5 
 
 init orientation=100 c.boron=6e15 space.mul=2
 
-# depositar oxido
+# 
 deposit oxide thick=0.5 
 
 deposit barrier thick=1
@@ -20,7 +21,7 @@ deposit barrier thick=1
 structure outfile=projeto31.str
 
 tonyplot  projeto31.str 
-# litografia
+# 
 etch barrier start x=3.00 y=0.00 
 etch cont x=12.00 y=0.00
 etch cont x=12.00 y=-10.00 
@@ -28,7 +29,12 @@ etch done x=3.00 y=-10.00
 structure outfile=projeto32.str
 tonyplot  projeto32.str
 
-# etching do oxido subjacente
+# 
 etch oxide thick=0.5 
 structure outfile=projeto33.str
 tonyplot  projeto33.str
+
+diffus time=46 temp=900 dryo2 press=1.00 hcl=3
+
+structure outfile=projeto34.str
+tonyplot  projeto34.str
