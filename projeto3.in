@@ -126,15 +126,15 @@ structure outfile=projeto318.str
 tonyplot  projeto318.str
 
 deposit photoresist thick=1
-etch photoresist start x=5 y=-4
+etch photoresist start x=4 y=-4
 etch cont x=6.25 y=-4
 etch cont x=6.25 y=0
-etch done x=5 y=0
+etch done x=4 y=0
 
 etch photoresist start x=8.75 y=-4
-etch cont x=10 y=-4
-etch cont x=10 y=0
-etch done x=8.75 y=0
+etch cont x=11 y=-4
+etch cont x=11 y=0
+etch done x=9.75 y=0
 
 structure outfile=projeto319.str
 tonyplot  projeto319.str
