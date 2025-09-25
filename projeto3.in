@@ -12,28 +12,95 @@ line y loc=10 spac=0.5
 
 init orientation=100 c.boron=6e15 space.mul=2
 
-# 
+# passo 1 
 deposit oxide thick=0.5 
 
-deposit barrier thick=1
+# passo 2
+deposit photoresist thick=1
 
 structure outfile=projeto31.str
 
 tonyplot  projeto31.str 
 # 
-etch barrier start x=3.00 y=0.00 
+etch photoresist start x=3.00 y=0.00 
 etch cont x=12.00 y=0.00
 etch cont x=12.00 y=-10.00 
 etch done x=3.00 y=-10.00 
 structure outfile=projeto32.str
 tonyplot  projeto32.str
 
-# 
 etch oxide thick=0.5 
 structure outfile=projeto33.str
 tonyplot  projeto33.str
 
+# passo 3
 diffus time=47 temp=900 dryo2 press=1.00 hcl=3
 
 structure outfile=projeto34.str
 tonyplot  projeto34.str
+
+# passo 4
+# implant boron dose=8e14 energy=30 pears
+implant boron dose=8e14 energy=30 monte tilt=7 rotation=0 crystal
+structure outfile=projeto35.str
+tonyplot  projeto35.str
+
+# passo 5 a adicionar posteriormente
+
+# O documento de projeto especifica um tempo e temperatura, mas isso nao faz sentido no silvaco. Achamos que a temperatura eh da Difusao do passo 7
+# 
+etch photoresist all 
+
+deposit polysilicon thick=0.4 
+# temp=600 time=15 minutes
+structure outfile=projeto36.str
+tonyplot  projeto36.str
+
+# passo 7. ajustar parametro depois
+diffus time=15 minutes temp=600 nitro press=1 c.phosphor=6e19 
+
+structure outfile=projeto37.str
+tonyplot  projeto37.str
+
+# passo 8
+deposit photoresist thick=1
+
+etch photoresist left p1.x=5 
+etch photoresist right p1.x=10 
+structure outfile=projeto38.str
+tonyplot  projeto38.str
+
+etch poly thick=0.9
+etch oxide thick=0.02
+structure outfile=projeto39.str
+tonyplot  projeto39.str
+
+
+etch photoresist all
+structure outfile=projeto311.str
+tonyplot  projeto311.str
+
+# passo 9
+implant phos dose=4e15 energy=50 monte tilt=7 rotation=0 crystal
+structure outfile=projeto312.str
+tonyplot  projeto312.str
+# passo 10
+diffus time=20 minutes temp=940 nitro press=1 
+structure outfile=projeto313.str
+tonyplot  projeto313.str
+
+# passo 11
+deposit oxide thick=0.4 
+# passo 12
+diffus time=10 minutes temp=940 nitro press=1 
+structure outfile=projeto314.str
+tonyplot  projeto314.str
+
+# passo 13
+deposit photoresist thick=1
+etch photoresist left p1.x=4 
+etch photoresist right p1.x=11
+
+structure outfile=projeto315.str
+tonyplot  projeto315.str
+
