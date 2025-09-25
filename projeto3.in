@@ -83,7 +83,7 @@ tonyplot  projeto311.str
 
 # passo 9
 implant phos dose=4e15 energy=50 monte tilt=7 rotation=0 crystal
-structure outfile=projeto312.strc
+structure outfile=projeto312.str
 tonyplot  projeto312.str
 # passo 10
 diffus time=20 minutes temp=940 nitro press=1 
