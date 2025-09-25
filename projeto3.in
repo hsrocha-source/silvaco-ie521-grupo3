@@ -33,7 +33,7 @@ etch oxide thick=0.5
 structure outfile=projeto33.str
 tonyplot  projeto33.str
 
-diffus time=46.5 temp=900 dryo2 press=1.00 hcl=3
+diffus time=47 temp=900 dryo2 press=1.00 hcl=3
 
 structure outfile=projeto34.str
 tonyplot  projeto34.str
