@@ -29,7 +29,8 @@ etch done x=3.00 y=-10.00
 structure outfile=projeto32.str
 tonyplot  projeto32.str
 
-etch oxide thick=0.5 
+etch oxide thick=0.5
+etch photoresist thick=0.5 
 structure outfile=projeto33.str
 tonyplot  projeto33.str
 
@@ -82,7 +83,7 @@ tonyplot  projeto311.str
 
 # passo 9
 implant phos dose=4e15 energy=50 monte tilt=7 rotation=0 crystal
-structure outfile=projeto312.str
+structure outfile=projeto312.strc
 tonyplot  projeto312.str
 # passo 10
 diffus time=20 minutes temp=940 nitro press=1 
@@ -104,3 +105,49 @@ etch photoresist right p1.x=11
 structure outfile=projeto315.str
 tonyplot  projeto315.str
 
+etch photoresist start x=6.25 y=-2.00
+etch cont x=8.75 y=-2.00
+etch cont x=8.75 y=0
+etch done x=6.25 y=0
+
+structure outfile=projeto316.str
+tonyplot  projeto316.str
+
+etch oxide thick=0.5
+etch photoresist thick=2
+structure outfile=projeto317.str
+tonyplot  projeto317.str
+# passo 14
+deposit titanium thick=0.1 
+# passo 15
+deposit aluminum thick=1 
+
+structure outfile=projeto318.str
+tonyplot  projeto318.str
+
+deposit photoresist thick=1
+etch photoresist start x=5 y=-4
+etch cont x=6.25 y=-4
+etch cont x=6.25 y=0
+etch done x=5 y=0
+
+etch photoresist start x=8.75 y=-4
+etch cont x=10 y=-4
+etch cont x=10 y=0
+etch done x=8.75 y=0
+
+structure outfile=projeto319.str
+tonyplot  projeto319.str
+
+etch aluminum thick=1
+
+structure outfile=projeto320.str
+tonyplot  projeto320.str
+
+etch photoresist all 
+
+diffus time=30 minutes temp=420 nitro press=1
+
+
+structure outfile=projeto321.str
+tonyplot  projeto321.str
