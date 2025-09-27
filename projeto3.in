@@ -1,13 +1,14 @@
 go athena
 
-line x loc=0.0 spac=0.1 
-line x loc=5 spac=0.06
-line x loc=10 spac=0.06
-line x loc=15 spac=0.1 
+line x loc=3.4 spac=0.1 
+line x loc=7.5 spac=0.06
+#line x loc=10 spac=0.06
+#line x loc=13 spac=0.1 
 #
-line y loc=0 spac=0.001
-line y loc=0.2 spac=0.005
-line y loc=0.5 spac=0.05
+line y loc=0.0 spac=0.001
+line y loc=0.05 spac=0.001
+line y loc=0.2 spac=0.01
+line y loc=2 spac=0.1
 line y loc=10 spac=0.5 
 
 init orientation=100 c.boron=6e15 space.mul=2
@@ -21,11 +22,14 @@ deposit photoresist thick=1
 structure outfile=projeto31.str
 
 tonyplot  projeto31.str 
-# 
-etch photoresist start x=3.00 y=0.00 
-etch cont x=12.00 y=0.00
-etch cont x=12.00 y=-10.00 
-etch done x=3.00 y=-10.00 
+
+etch photoresist right p1.x=3 
+#etch photoresist start x=3.00 y=0.00 
+#etch cont x=12.00 y=0.00
+#etch cont x=12.00 y=-10.00 
+#etch done x=3.00 y=-10.00
+
+ 
 structure outfile=projeto32.str
 tonyplot  projeto32.str
 
@@ -42,7 +46,7 @@ tonyplot  projeto34.str
 
 # passo 4
 # implant boron dose=8e14 energy=30 pears
-implant boron dose=8e14 energy=30 monte tilt=7 rotation=0 crystal
+implant boron dose=8e14 energy=30 pears tilt=7 rotation=0 crystal
 structure outfile=projeto35.str
 tonyplot  projeto35.str
 
@@ -52,13 +56,13 @@ tonyplot  projeto35.str
 # 
 etch photoresist all 
 
-deposit polysilicon thick=0.4 
-# temp=600 time=15 minutes
+deposit polysilicon thick=0.4 temp=600 time=15 minutes
 structure outfile=projeto36.str
 tonyplot  projeto36.str
 
 # passo 7. ajustar parametro depois
-diffus time=15 minutes temp=600 nitro press=1 c.phosphor=6e19 
+implant phos dose=4e18 energy=50 pears tilt=7 rotation=0 poly
+# 	diffus time=15 temp=700 nitro press=1 
 
 structure outfile=projeto37.str
 tonyplot  projeto37.str
@@ -67,7 +71,7 @@ tonyplot  projeto37.str
 deposit photoresist thick=1
 
 etch photoresist left p1.x=5 
-etch photoresist right p1.x=10 
+# etch photoresist right p1.x=10 
 structure outfile=projeto38.str
 tonyplot  projeto38.str
 
@@ -82,7 +86,7 @@ structure outfile=projeto311.str
 tonyplot  projeto311.str
 
 # passo 9
-implant phos dose=4e15 energy=50 monte tilt=7 rotation=0 crystal
+implant phos dose=8e15 energy=50 pears tilt=7 rotation=0 crystal
 structure outfile=projeto312.str
 tonyplot  projeto312.str
 # passo 10
@@ -100,15 +104,17 @@ tonyplot  projeto314.str
 # passo 13
 deposit photoresist thick=1
 etch photoresist left p1.x=4 
-etch photoresist right p1.x=11
+# etch photoresist right p1.x=11
 
 structure outfile=projeto315.str
 tonyplot  projeto315.str
 
-etch photoresist start x=6.25 y=-2.00
-etch cont x=8.75 y=-2.00
-etch cont x=8.75 y=0
-etch done x=6.25 y=0
+#etch photoresist start x=6.25 y=-2.00
+#etch cont x=8.75 y=-2.00
+#etch cont x=8.75 y=0
+#etch done x=6.25 y=0
+
+etch photoresist right p1.x=6.25
 
 structure outfile=projeto316.str
 tonyplot  projeto316.str
@@ -124,30 +130,99 @@ deposit aluminum thick=1
 
 structure outfile=projeto318.str
 tonyplot  projeto318.str
-
 deposit photoresist thick=1
-etch photoresist start x=5 y=-4
+etch photoresist start x=4 y=-4
 etch cont x=6.25 y=-4
 etch cont x=6.25 y=0
-etch done x=5 y=0
+etch done x=4 y=0
 
-etch photoresist start x=8.75 y=-4
-etch cont x=10 y=-4
-etch cont x=10 y=0
-etch done x=8.75 y=0
+#etch photoresist start x=8.75 y=-4
+#etch cont x=11 y=-4
+#etch cont x=11 y=0
+#etch done x=8.75 y=0
 
 structure outfile=projeto319.str
 tonyplot  projeto319.str
 
-etch aluminum thick=1
-
+etch aluminum thick=1.6
+etch titanium thick=1
 structure outfile=projeto320.str
 tonyplot  projeto320.str
 
 etch photoresist all 
 
-diffus time=30 minutes temp=420 nitro press=1
-
 
 structure outfile=projeto321.str
 tonyplot  projeto321.str
+
+# Extract design parameters
+
+# extract final S/D Xj
+extract name="nxj" xj silicon mat.occno=1 x.val=3.6 junc.occno=1
+
+# extract the N++ regions sheet resistance
+extract name="n++ sheet rho" sheet.res material="Silicon" mat.occno=1 x.val=3.5 region.occno=1
+
+# extract the surface conc under the channel.
+extract name="chan surf conc" surf.conc impurity="Net Doping" \
+	material="Silicon" mat.occno=1 x.val=7
+
+# extract a curve of conductance versus bias.
+extract start material="Polysilicon" mat.occno=1 \
+	bias=0.0 bias.step=0.2 bias.stop=2 x.val=7
+extract done name="sheet cond v bias" \
+	curve(bias,1dn.conduct material="Silicon" mat.occno=1  region.occno=1)\
+	outfile="extract.dat"
+
+# extract the long chan Vt
+extract name="n1dvt" 1dvt ntype vb=0.0 qss=1e10 x.val=7
+
+structure mirror right
+
+# Name the electrodes...
+electrode name=gate x=7.5 y=-0.2 
+electrode name=source x=3.6 y=-0.2
+electrode name=drain x=11.3 y=-0.2
+electrode name=substrate backside
+
+
+structure outfile=projeto3f.str
+
+# plot the structure
+tonyplot  projeto3f.str -set projeto3f.set
+
+############# Vt Test : Returns Vt, Beta and Theta ################
+go atlas
+
+# set material models
+models cvt srh print 
+
+contact name=gate n.poly
+interface qf=3e10
+
+method newton
+solve init
+
+# Bias the drain 
+solve vdrain=0.1 
+
+# Ramp the gate
+log outf=projeto3f1.log master
+solve vgate=0 vstep=0.25 vfinal=3.0 name=gate
+save outf=projeto3f1.str
+
+# plot results
+tonyplot  projeto3f1.log -set projeto3f1.set
+
+# extract device parameters
+extract name="nvt" (xintercept(maxslope(curve(abs(v."gate"),abs(i."drain")))) \
+	- abs(ave(v."drain"))/2.0)
+extract name="nbeta" slope(maxslope(curve(abs(v."gate"),abs(i."drain")))) \
+	* (1.0/abs(ave(v."drain")))
+extract name="ntheta" ((max(abs(v."drain")) * $"nbeta")/max(abs(i."drain"))) \
+	- (1.0 / (max(abs(v."gate")) - ($"nvt")))
+
+quit
+
+
+
