@@ -45,7 +45,7 @@ structure outfile=projeto34.str
 #tonyplot  projeto34.str
 
 # passo 4
-implant boron dose=2.8e12 energy=30 pears tilt=7 rotation=0 crystal
+implant boron dose=3.24e12 energy=30 pears tilt=7 rotation=0 crystal
 structure outfile=projeto35.str
 tonyplot  projeto35.str
 
@@ -197,7 +197,7 @@ go atlas
 models cvt srh print 
 
 contact name=gate n.poly
-interface qf=3e10
+interface qf=1e11
 
 method newton
 solve init
