@@ -1,0 +1,39 @@
+
+############# Vt Test : Returns Vt, Beta and Theta ################
+go atlas
+
+
+#
+init infile=projeto3f.str
+
+# set material models
+models cvt srh print 
+
+contact name=gate n.poly
+interface qf=1e11
+
+method newton
+solve init
+
+# Bias the drain 
+solve vdrain=0.1 vstep=1 vfinal=10.0 name=drain 
+
+# Ramp the gate
+log outf=projeto3f1.log master
+solve vgate=-1.5 vstep=0.01 vfinal=3.0 name=gate
+save outf=projeto3f1.str
+
+# plot results
+tonyplot  projeto3f1.log -set projeto3f1.set
+
+# extract device parameters
+extract name="nvt" (xintercept(maxslope(curve(abs(v."gate"),abs(i."drain")))) \
+	- abs(ave(v."drain"))/2.0)
+extract name="nbeta" slope(maxslope(curve(abs(v."gate"),abs(i."drain")))) \
+	* (1.0/abs(ave(v."drain")))
+extract name="ntheta" ((max(abs(v."drain")) * $"nbeta")/max(abs(i."drain"))) \
+	- (1.0 / (max(abs(v."gate")) - ($"nvt")))
+
+quit
+
+
