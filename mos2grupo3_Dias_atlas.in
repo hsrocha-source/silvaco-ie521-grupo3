@@ -1,0 +1,89 @@
+############# Vt Test : Returns Vt, Beta and Theta ################
+go atlas
+
+#
+init infile=projeto3f.str
+
+# set material models
+models cvt srh print numcarr=2
+
+contact name=gate n.poly
+interface qf=1e11
+
+method climit=1e-4 maxtrap=10
+#method newton
+solve init
+
+solve vdrain=1 out=solve_tmp1
+solve vdrain=2 out=solve_tmp2
+solve vdrain=3 out=solve_tmp3
+solve vdrain=4 out=solve_tmp4
+solve vdrain=5 out=solve_tmp5
+
+
+
+load infile=solve_tmp1
+log outf=vdrain_1.log
+solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate 
+
+load infile=solve_tmp2
+log outf=vdrain_2.log
+solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate
+  
+load infile=solve_tmp3
+log outf=vdrain_3.log
+solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate
+
+load infile=solve_tmp4
+log outf=vdrain_4.log
+solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate
+
+load infile=solve_tmp5
+log outf=vdrain_5.log
+solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate
+
+# Bias the drain 1
+#solve vdrain=0.1 vstep=0.2 vfinal=1.0 name=drain 
+
+# Ramp the gate
+#solve vdrain = 1
+#log outf=projeto3f1.log master
+#solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate
+#save outf=projeto3f1.str
+#log outf=projeto3d1.log master
+
+# Bias the drain 2
+#solve vdrain=0.1 vstep=0.2 vfinal=2.0 name=drain 
+
+# Ramp the gate
+#solve vdrain = 2
+#log outf=projeto3f2.log master
+#solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate
+#save outf=projeto3f2.str
+#log outf=projeto3d2.log master
+
+# Bias the drain 3
+#solve vdrain=0.1 vstep=0.2 vfinal=3.0 name=drain 
+
+# Ramp the gate
+#solve vdrain=3
+#log outf=projeto3f3.log master
+#solve vgate=-1.5 vstep=0.1 vfinal=3.0 name=gate
+#save outf=projeto3f3.str
+#log outf=projeto3d3.log master
+
+
+# plot results
+#tonyplot -overlay projeto3f1.log -set projeto3f1.set
+tonyplot -overlay vdrain_1.log  vdrain_2.log vdrain_3.log vdrain_4.log vdrain_5.log -set projeto3f1.set
+
+
+# extract device parameters
+extract name="nvt" (xintercept(maxslope(curve(abs(v."gate"),abs(i."drain")))) \
+	- abs(ave(v."drain"))/2.0)
+extract name="nbeta" slope(maxslope(curve(abs(v."gate"),abs(i."drain")))) \
+	* (1.0/abs(ave(v."drain")))
+extract name="ntheta" ((max(abs(v."drain")) * $"nbeta")/max(abs(i."drain"))) \
+	- (1.0 / (max(abs(v."gate")) - ($"nvt")))
+
+quit
