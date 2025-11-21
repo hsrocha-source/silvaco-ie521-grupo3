@@ -50,7 +50,7 @@ structure outfile=projeto35.str
 tonyplot  projeto35.str
 
 # passo 5 a adicionar posteriormente
-
+implant boron dose=1e18 energy=160 pears tilt=7 rotation=0 crystal
 
 # passo 6 
 etch photoresist all 
